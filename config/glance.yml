@@ -1,0 +1,614 @@
+server:
+  proxied: true
+  assets-path: /app/assets
+
+branding:
+  app-name: "punk & rally"
+  logo-url: /assets/logo.jpg
+  favicon-url: /assets/logo.jpg
+  hide-footer: true
+
+theme:
+  background-color: 0 0 4
+  primary-color: 24 100 50
+  positive-color: 175 85 42
+  negative-color: 0 80 55
+  contrast-multiplier: 1.25
+  custom-css-file: /assets/punk-rally.css
+  disable-picker: true
+
+document:
+  head: |
+    <style>
+    @media (max-width: 1190px) {
+      :root { --mobile-navigation-height: 56px; }
+      .page-columns { flex-direction: column !important; }
+      .page-column { display: block !important; width: 100% !important; }
+      .mobile-navigation {
+        transform: translateY(calc(100% - var(--mobile-navigation-height) - var(--safe-area-inset-bottom))) !important;
+      }
+      .mobile-navigation-icons { display: none !important; }
+      .mobile-navigation-actions { display: none !important; }
+      .mobile-navigation-page-links {
+        display: flex !important;
+        height: var(--mobile-navigation-height);
+        align-items: center;
+        justify-content: space-around;
+        gap: 0 !important;
+        padding: 0 8px !important;
+        border: 0 !important;
+        overflow: hidden;
+      }
+      .mobile-navigation-page-links .nav-item {
+        font-size: 13px;
+        font-weight: 600;
+        padding: 10px 14px;
+      }
+    }
+    </style>
+    <script>
+    (function () {
+      function scrollToTop() {
+        var opts = { top: 0, behavior: "smooth" };
+        try { window.scrollTo(opts); } catch (e) { window.scrollTo(0, 0); }
+        var nodes = [document.documentElement, document.body, document.querySelector(".body-content")];
+        for (var i = 0; i < nodes.length; i++) {
+          var n = nodes[i];
+          if (!n) continue;
+          if (typeof n.scrollTo === "function") {
+            try { n.scrollTo(opts); } catch (e) { n.scrollTop = 0; }
+          } else {
+            n.scrollTop = 0;
+          }
+        }
+      }
+      function ensureTopId() {
+        var el = document.querySelector(".body-content") || document.body;
+        if (!el) return;
+        if (document.documentElement.getAttribute("id") === "top") {
+          document.documentElement.removeAttribute("id");
+        }
+        el.id = "top";
+      }
+      function isHealthyStatus(text) {
+        var t = (text || "").toLowerCase();
+        if (t.indexOf("unhealthy") >= 0) return false;
+        if (t.indexOf("restarting") >= 0) return false;
+        if (t.indexOf("exited") >= 0) return false;
+        if (t.indexOf("dead") >= 0) return false;
+        if (t.indexOf("starting") >= 0 && t.indexOf("up") < 0) return false;
+        if (t.indexOf("up ") >= 0 || t.indexOf("running") >= 0) return true;
+        return false;
+      }
+      function filterDockerAlerts() {
+        document.querySelectorAll(".docker-alerts").forEach(function (widget) {
+          var content = widget.querySelector(".widget-content");
+          if (!content) return;
+          var seen = new Set();
+          var rows = [];
+          content.querySelectorAll("a, p.size-h4, p.size-h3").forEach(function (el) {
+            var row = el;
+            while (row && row.parentElement && row.parentElement !== content) {
+              row = row.parentElement;
+            }
+            if (row && row.parentElement === content && !seen.has(row)) {
+              seen.add(row);
+              rows.push(row);
+            }
+          });
+          if (!rows.length) {
+            var fallback = content.querySelector(":scope > div");
+            if (fallback) rows = [fallback];
+          }
+          var visible = 0;
+          rows.forEach(function (row) {
+            var text = row.textContent || "";
+            if (isHealthyStatus(text)) {
+              row.classList.add("docker-row-healthy");
+            } else {
+              row.classList.remove("docker-row-healthy");
+              if (text.trim()) visible++;
+            }
+          });
+          var msg = content.querySelector(".docker-all-clear");
+          if (visible === 0 && rows.length > 0) {
+            if (!msg) {
+              msg = document.createElement("p");
+              msg.className = "docker-all-clear";
+              msg.textContent = "all clear.";
+              content.appendChild(msg);
+            }
+            msg.style.display = "";
+          } else if (msg) {
+            msg.style.display = "none";
+          }
+        });
+      }
+      document.addEventListener("click", function (e) {
+        var t = e.target;
+        var a = t && t.closest ? t.closest('a[href="#top"]') : null;
+        if (!a) return;
+        e.preventDefault();
+        scrollToTop();
+      }, true);
+      function boot() {
+        ensureTopId();
+        filterDockerAlerts();
+        setInterval(filterDockerAlerts, 60000);
+        if (typeof MutationObserver !== "undefined") {
+          var obs = new MutationObserver(filterDockerAlerts);
+          document.querySelectorAll(".docker-alerts").forEach(function (el) {
+            obs.observe(el, { childList: true, subtree: true });
+          });
+        }
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", boot);
+      } else {
+        boot();
+      }
+    })();
+    </script>
+
+pages:
+  - name: Watch
+    slug: watch
+    columns:
+      - size: full
+        widgets:
+          - type: bookmarks
+            groups:
+              - title: Play
+                links:
+                  - title: Emby
+                    url: https://embytest1.banditoburrito.xyz
+                    icon: di:emby
+                  - title: Emby backup
+                    url: https://emby.banditoburrito.xyz
+                    icon: di:emby
+                  - title: Books
+                    url: https://books.banditoburrito.xyz
+                    icon: di:audiobookshelf
+                  - title: Seerr
+                    url: ${SEERR_HREF}
+                    icon: di:overseerr
+          - type: custom-api
+            title: Library
+            css-class: emby-library
+            cache: 15m
+            url: http://192.168.1.143:8096/emby/Items/Counts
+            headers:
+              X-Emby-Token: ${EMBY_API_KEY}
+              Accept: application/json
+            template: |
+              {{ if eq .Response.StatusCode 200 }}
+              <div class="emby-stats flex justify-between text-center margin-block-3">
+                <div>
+                  <div class="stat-num size-h2 color-highlight">{{ .JSON.Int "MovieCount" }}</div>
+                  <div class="stat-label size-h6">MOVIES</div>
+                </div>
+                <div>
+                  <div class="stat-num size-h2 color-highlight">{{ .JSON.Int "SeriesCount" }}</div>
+                  <div class="stat-label size-h6">SERIES</div>
+                </div>
+                <div>
+                  <div class="stat-num size-h2 color-highlight">{{ .JSON.Int "EpisodeCount" }}</div>
+                  <div class="stat-label size-h6">EPISODES</div>
+                </div>
+              </div>
+              {{ else }}
+              <p class="color-negative">Could not load library stats. Check EMBY_API_KEY.</p>
+              {{ end }}
+          - type: custom-api
+            title: Now playing
+            css-class: emby-now-playing
+            cache: 1m
+            url: http://192.168.1.143:8096/emby/Sessions
+            parameters:
+              ActiveWithinSeconds: "300"
+            headers:
+              X-Emby-Token: ${EMBY_API_KEY}
+              Accept: application/json
+            template: |
+              {{ if eq .Response.StatusCode 200 }}
+              {{ $sessions := .JSON.Array "" }}
+              {{ $shown := 0 }}
+              <ul class="list list-gap-10 now-playing-list">
+              {{ range $session := $sessions }}
+                {{ if and ($session.Exists "NowPlayingItem") ($session.Bool "PlayState.CanSeek") }}
+                  {{ $shown = add $shown 1 }}
+                  {{ $userName := $session.String "UserName" }}
+                  {{ $mediaType := $session.String "NowPlayingItem.Type" }}
+                  {{ $title := $session.String "NowPlayingItem.Name" }}
+                  {{ $series := $session.String "NowPlayingItem.SeriesName" }}
+                  {{ $season := $session.String "NowPlayingItem.ParentIndexNumber" }}
+                  {{ $episode := $session.String "NowPlayingItem.IndexNumber" }}
+                  {{ $device := $session.String "Client" }}
+                  <li>
+                    <p class="now-playing-user size-h4">{{ $userName }} — {{ if eq $mediaType "Episode" }}{{ $series }} S{{ $season }}E{{ $episode }} · {{ end }}{{ $title }}</p>
+                    <p class="now-playing-meta size-h6">{{ $device }}</p>
+                  </li>
+                {{ end }}
+              {{ end }}
+              </ul>
+              {{ if eq $shown 0 }}
+              <p class="color-subdue">nothing on rn.</p>
+              {{ end }}
+              {{ else }}
+              <p class="color-negative">Could not load sessions. Check EMBY_API_KEY.</p>
+              {{ end }}
+          - type: monitor
+            cache: 1m
+            title: Emby status
+            sites:
+              - title: Emby
+                url: https://embytest1.banditoburrito.xyz
+                check-url: http://192.168.1.143:8096/emby/System/Info/Public
+                icon: di:emby
+              - title: Emby backup
+                url: https://emby.banditoburrito.xyz
+                check-url: http://192.168.1.2:8096/emby/System/Info/Public
+                icon: di:emby
+          - type: bookmarks
+            groups:
+              - title: "Stream (Safari, Nick. Ads hate that.)"
+                links:
+                  - title: "#Sportstreams"
+                    url: https://fmhy.net/video#live-sports
+                    icon: mdi:television
+                  - title: strmd
+                    url: https://strmd.link
+                    icon: mdi:television
+                  - title: strmfree
+                    url: https://strmfree.link
+                    icon: mdi:television
+                  - title: "#livetv"
+                    url: https://fmhy.net/video#tv-streaming
+                    icon: mdi:television-box
+                  - title: bingr
+                    url: https://bingr.one
+                    icon: mdi:movie-open
+                  - title: FMHY
+                    url: https://fmhy.net/videopiracyguide#streaming-sites
+                    icon: mdi:book-open-variant
+
+  - name: Request
+    slug: seerr
+    columns:
+      - size: full
+        widgets:
+          - type: iframe
+            hide-header: true
+            source: ${SEERR_HREF}
+            height: 900
+
+  - name: Home
+    columns:
+      - size: small
+        widgets:
+          - type: clock
+            hour-format: 12h
+            timezones:
+              - timezone: America/New_York
+                label: Home
+              - timezone: Pacific/Guam
+                label: Guam
+
+          - type: weather
+            location: Reading, Pennsylvania, United States
+            units: imperial
+            hour-format: 12h
+
+          - type: weather
+            location: Hagatna, Guam
+            units: imperial
+            hour-format: 12h
+
+
+          - type: custom-api
+            title: Internet
+            cache: 2m
+            url: http://speedtest-tracker/api/v1/results
+            parameters:
+              per_page: "1"
+            headers:
+              Authorization: Bearer ${SPEEDTEST_API_TOKEN}
+              Accept: application/json
+            template: |
+              {{ if eq .Response.StatusCode 200 }}
+              {{ $rows := .JSON.Array "data" }}
+              {{ if eq (len $rows) 0 }}
+              <p>No tests yet. Scheduled at 8am, 2pm, and 8pm.</p>
+              <p class="size-h6"><a href="https://speed.banditoburrito.xyz/run" target="_blank" rel="noopener">Run test</a></p>
+              {{ else }}
+              {{ $item := index $rows 0 }}
+              {{ $down := $item.Float "download_bits" }}
+              {{ $up := $item.Float "upload_bits" }}
+              {{ $ping := $item.Float "ping" }}
+              <div class="flex justify-between text-center margin-block-3">
+                <div>
+                  <div class="color-highlight size-h2">{{ $down | mul 0.000001 | printf "%.0f" }}</div>
+                  <div class="size-h6">DOWNLOAD Mbps</div>
+                </div>
+                <div>
+                  <div class="color-highlight size-h2">{{ $up | mul 0.000001 | printf "%.0f" }}</div>
+                  <div class="size-h6">UPLOAD Mbps</div>
+                </div>
+                <div>
+                  <div class="color-highlight size-h2">{{ $ping | printf "%.0f" }}</div>
+                  <div class="size-h6">PING ms</div>
+                </div>
+              </div>
+              <p class="size-h6 margin-top-5"><a href="https://speed.banditoburrito.xyz/run" target="_blank" rel="noopener">Run test</a></p>
+              {{ end }}
+              {{ else }}
+              <p class="color-negative">Speed lookup failed. Scheduled tests still run at 8am, 2pm, and 8pm.</p>
+              <p class="size-h6"><a href="https://speed.banditoburrito.xyz/run" target="_blank" rel="noopener">Run test</a></p>
+              {{ end }}
+
+          - type: server-stats
+            servers:
+              - type: local
+                name: PrincessDonut
+                hide-swap: true
+                hide-mountpoints-by-default: true
+
+          - type: custom-api
+            title: NetAlertX
+            title-url: http://192.168.1.2:20211
+            cache: 5m
+            url: http://192.168.1.2:20211/php/server/query_json.php?file=table_devices.json
+            headers:
+              Accept: application/json
+            template: |
+              {{ $data := .JSON.Array "data" }}
+              {{ $connected := 0 }}
+              {{ range $dev := $data }}
+                {{ if eq ($dev.Int "devPresentLastScan") 1 }}
+                  {{ $connected = add $connected 1 }}
+                {{ end }}
+              {{ end }}
+              <div class="flex justify-between text-center">
+                <div>
+                  <div class="size-h3 color-highlight">{{ $connected }}</div>
+                  <div class="size-h6">CONNECTED</div>
+                </div>
+              </div>
+              <ul class="list list-gap-10 margin-top-10">
+              {{ range $dev := $data }}
+                {{ if eq ($dev.Int "devPresentLastScan") 1 }}
+                  {{ $name := $dev.String "devName" }}
+                  {{ $ip := $dev.String "devLastIP" }}
+                  {{ if or (eq $name "JoshNuc13Pro") (eq $name "BeelinkMini") (eq $name "Beelink Mini") (eq $name "router") (eq $name "Router") (eq $ip "192.168.1.1") }}
+                  <li>
+                    <p class="color-positive size-h4 text-truncate">{{ $name }}</p>
+                    <p class="color-subdue size-h5">{{ $ip }}</p>
+                  </li>
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+              </ul>
+
+          - type: search
+            placeholder: Search movies and TV…
+            search-engine: ${SEERR_HREF}/search?query={QUERY}
+            bangs:
+              - title: Seerr
+                shortcut: "!s"
+                url: ${SEERR_HREF}/search?query={QUERY}
+              - title: TMDB
+                shortcut: "!tmdb"
+                url: https://www.themoviedb.org/search?query={QUERY}
+
+          - type: bookmarks
+            groups:
+              - title: Grab
+                links:
+                  - title: Radarr
+                    url: https://radarr.banditoburrito.xyz
+                    icon: di:radarr
+                  - title: Sonarr
+                    url: https://sonarr.banditoburrito.xyz
+                    icon: di:sonarr
+                  - title: Prowlarr
+                    url: https://prowlarr.banditoburrito.xyz
+                    icon: di:prowlarr
+                  - title: Deluge
+                    url: https://deluge.banditoburrito.xyz
+                    icon: di:deluge
+              - title: NAS
+                links:
+                  - title: Dockhand
+                    url: https://dockhand.banditoburrito.xyz
+                    icon: di:docker
+                  - title: Smokey Vault
+                    url: https://thesmokeybarrelbar.com
+                    icon: mdi:glass-cocktail
+                  - title: OmniRoute
+                    url: https://omni.banditoburrito.xyz
+                    icon: mdi:robot-outline
+                  - title: NetAlertX
+                    url: http://192.168.1.2:20211
+                    icon: mdi:lan
+
+          - type: monitor
+            cache: 1m
+            title: Apps
+            sites:
+              - title: Seerr
+                url: ${SEERR_HREF}
+                check-url: http://192.168.1.2:5055
+                icon: di:overseerr
+              - title: Emby
+                url: https://embytest1.banditoburrito.xyz
+                check-url: http://192.168.1.143:8096
+                icon: di:emby
+              - title: Emby backup
+                url: https://emby.banditoburrito.xyz
+                check-url: http://192.168.1.2:8096
+                icon: di:emby
+              - title: Radarr
+                url: https://radarr.banditoburrito.xyz
+                check-url: http://192.168.1.2:7878
+                icon: di:radarr
+              - title: Sonarr
+                url: https://sonarr.banditoburrito.xyz
+                check-url: http://192.168.1.2:8989
+                icon: di:sonarr
+              - title: Audiobookshelf
+                url: https://books.banditoburrito.xyz
+                check-url: http://192.168.1.2:13378
+                icon: di:audiobookshelf
+              - title: Deluge
+                url: https://deluge.banditoburrito.xyz
+                check-url: http://192.168.1.2:8112
+                icon: di:deluge
+              - title: Dockhand
+                url: https://dockhand.banditoburrito.xyz
+                check-url: http://192.168.1.2:3000
+                icon: di:docker
+              - title: OmniRoute
+                url: https://omni.banditoburrito.xyz
+                check-url: http://192.168.1.2:20128
+                icon: mdi:robot-outline
+              - title: File Station
+                url: https://files.banditoburrito.xyz
+                check-url: http://192.168.1.2:7000
+                icon: mdi:folder
+              - title: Drive
+                url: https://drive.banditoburrito.xyz
+                check-url: http://192.168.1.2:10002
+                icon: mdi:cloud
+              - title: NetAlertX
+                url: http://192.168.1.2:20211
+                check-url: http://192.168.1.2:20211/devices.php
+                icon: mdi:lan
+
+      - size: full
+        widgets:
+          - type: custom-api
+            title: Trending
+            title-url: ${SEERR_HREF}/discover/trending
+            url: ${SEERR_URL}/api/v1/discover/trending
+            cache: 15m
+            headers:
+              accept: application/json
+              x-api-key: ${SEERR_API_KEY}
+            parameters:
+              language: en
+              page: "1"
+            template: |
+              {{ if eq .Response.StatusCode 200 }}
+                <ul class="list list-gap-10 collapsible-container" data-collapse-after="8">
+                {{ range .JSON.Array "results" }}
+                  {{ $mediaType := .String "mediaType" }}
+                  {{ $mediaTitle := "" }}
+                  {{ if eq $mediaType "movie" }}{{ $mediaTitle = .String "title" }}{{ else }}{{ $mediaTitle = .String "name" }}{{ end }}
+                  {{ $href := concat "${SEERR_HREF}" "/" $mediaType "/" (.String "id") }}
+                  <li class="flex items-start gap-10 thumbnail-container thumbnail-parent">
+                    <a href="{{ $href }}" target="_blank">
+                      <img src="https://image.tmdb.org/t/p/w300{{ .String "posterPath" }}" style="border-radius: 5px; min-width: 5rem; max-width: 5rem;" class="card">
+                    </a>
+                    <div class="flex-1">
+                      <p class="color-positive size-h4 text-truncate-2-lines"><a href="{{ $href }}" target="_blank">{{ $mediaTitle }}</a></p>
+                      <p class="size-h4">{{ if eq $mediaType "movie" }}Movie{{ else }}TV{{ end }}</p>
+                      <p class="color-subdue size-h4 text-truncate-2-lines">{{ .String "overview" }}</p>
+                    </div>
+                  </li>
+                {{ end }}
+                </ul>
+              {{ else }}
+                <p>Could not load Seerr trending. Check SEERR_API_KEY.</p>
+              {{ end }}
+
+          - type: group
+            widgets:
+              - type: custom-api
+                title: New movies
+                title-url: ${SEERR_HREF}/discover/movies
+                url: ${SEERR_URL}/api/v1/discover/movies
+                cache: 30m
+                headers:
+                  accept: application/json
+                  x-api-key: ${SEERR_API_KEY}
+                parameters:
+                  language: en
+                  page: "1"
+                template: |
+                  {{ if eq .Response.StatusCode 200 }}
+                    <ul class="list list-gap-10 collapsible-container" data-collapse-after="8">
+                    {{ range .JSON.Array "results" }}
+                      {{ $href := concat "${SEERR_HREF}" "/movie/" (.String "id") }}
+                      <li class="flex items-start gap-10 thumbnail-container thumbnail-parent">
+                        <a href="{{ $href }}" target="_blank">
+                          <img src="https://image.tmdb.org/t/p/w300{{ .String "posterPath" }}" style="border-radius: 5px; min-width: 5rem; max-width: 5rem;" class="card">
+                        </a>
+                        <div class="flex-1">
+                          <p class="color-positive size-h4 text-truncate-2-lines"><a href="{{ $href }}" target="_blank">{{ .String "title" }}</a></p>
+                          <p class="size-h4">{{ .String "releaseDate" }}</p>
+                        </div>
+                      </li>
+                    {{ end }}
+                    </ul>
+                  {{ end }}
+              - type: custom-api
+                title: New TV
+                title-url: ${SEERR_HREF}/discover/tv
+                url: ${SEERR_URL}/api/v1/discover/tv
+                cache: 30m
+                headers:
+                  accept: application/json
+                  x-api-key: ${SEERR_API_KEY}
+                parameters:
+                  language: en
+                  page: "1"
+                template: |
+                  {{ if eq .Response.StatusCode 200 }}
+                    <ul class="list list-gap-10 collapsible-container" data-collapse-after="8">
+                    {{ range .JSON.Array "results" }}
+                      {{ $href := concat "${SEERR_HREF}" "/tv/" (.String "id") }}
+                      <li class="flex items-start gap-10 thumbnail-container thumbnail-parent">
+                        <a href="{{ $href }}" target="_blank">
+                          <img src="https://image.tmdb.org/t/p/w300{{ .String "posterPath" }}" style="border-radius: 5px; min-width: 5rem; max-width: 5rem;" class="card">
+                        </a>
+                        <div class="flex-1">
+                          <p class="color-positive size-h4 text-truncate-2-lines"><a href="{{ $href }}" target="_blank">{{ .String "name" }}</a></p>
+                          <p class="size-h4">{{ .String "firstAirDate" }}</p>
+                        </div>
+                      </li>
+                    {{ end }}
+                    </ul>
+                  {{ end }}
+
+
+      - size: small
+        widgets:
+          - type: docker-containers
+            title: Container alerts
+            css-class: docker-alerts
+            hide-by-default: false
+            format-container-names: true
+            running-only: false
+
+          - type: bookmarks
+            groups:
+              - title: Restart
+                links:
+                  - title: Dockhand (start/stop/restart)
+                    url: https://dockhand.banditoburrito.xyz
+                    icon: di:portainer
+                    description: Use this to bounce a container
+              - title: Files
+                links:
+                  - title: File Station
+                    url: https://files.banditoburrito.xyz
+                    icon: mdi:folder
+                  - title: Synology Drive
+                    url: https://drive.banditoburrito.xyz
+                    icon: mdi:cloud
+                  - title: DSM
+                    url: https://nasty.banditoburrito.xyz
+                    icon: mdi:nas
+                  - title: Reboot NAS
+                    url: https://nasty.banditoburrito.xyz
+                    icon: mdi:restart

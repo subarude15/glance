@@ -1,0 +1,146 @@
+/* punk & rally — distressed street art theme */
+
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&family=IBM+Plex+Mono:wght@500;700&display=swap");
+
+:root {
+  --pr-orange: hsl(24 100% 50%);
+  --pr-teal: hsl(175 85% 42%);
+  --pr-surface: hsl(0 0% 10%);
+}
+
+/* page texture */
+body {
+  background-color: hsl(0 0% 4%);
+  background-image:
+    url("/assets/wall-texture.jpg"),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+  background-size: cover, 256px 256px;
+  background-blend-mode: soft-light, overlay;
+  background-attachment: fixed;
+}
+
+.body-content {
+  position: relative;
+}
+
+/* widget cards */
+.widget {
+  background: hsl(0 0% 10% / 0.92) !important;
+  border: 2px solid hsl(0 0% 18%) !important;
+  box-shadow: 4px 4px 0 hsl(0 0% 0% / 0.55) !important;
+  position: relative;
+}
+
+.widget::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1.25rem;
+  right: 1.25rem;
+  height: 3px;
+  background:
+    linear-gradient(90deg, var(--pr-orange) 0 22%, transparent 22% 28%, var(--pr-orange) 28% 50%, transparent 50% 56%, var(--pr-orange) 56% 78%, transparent 78% 84%, var(--pr-orange) 84% 100%);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.widget-header-title,
+.widget-header-title a {
+  font-family: "Permanent Marker", cursive !important;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+/* stats */
+.stat-num,
+.emby-stats .color-highlight,
+.widget-type-custom-api .color-highlight.size-h2,
+.widget-type-custom-api .color-highlight.size-h3 {
+  font-family: "IBM Plex Mono", monospace !important;
+  font-weight: 700;
+  color: var(--pr-orange) !important;
+}
+
+.stat-label,
+.emby-stats .size-h6 {
+  letter-spacing: 0.12em;
+  font-size: 0.65rem !important;
+  color: var(--pr-teal) !important;
+}
+
+/* bookmarks — sticker pills */
+.widget-type-bookmarks .list-horizontal-text a,
+.widget-type-bookmarks .links-list a {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border: 2px solid var(--pr-orange);
+  background: hsl(0 0% 8%);
+  box-shadow: 3px 3px 0 hsl(0 0% 0%);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.widget-type-bookmarks .list-horizontal-text a:hover,
+.widget-type-bookmarks .links-list a:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 hsl(0 0% 0%);
+}
+
+/* now playing */
+.now-playing-list li {
+  border-left: 3px solid var(--pr-orange);
+  padding-left: 0.75rem;
+}
+
+.now-playing-user {
+  color: var(--pr-orange) !important;
+  font-weight: 700;
+}
+
+.now-playing-meta {
+  color: var(--pr-teal) !important;
+}
+
+/* docker alerts */
+.docker-all-clear {
+  color: var(--pr-teal) !important;
+  font-family: "Permanent Marker", cursive;
+  font-size: 1.1rem;
+  padding: 0.5rem 0;
+}
+
+.docker-alerts .docker-row-healthy {
+  display: none !important;
+}
+
+@media (max-width: 1190px) {
+  .docker-alerts {
+    display: none !important;
+  }
+}
+
+/* nav logo */
+.navigation-logo img {
+  max-height: 2.25rem;
+  width: auto;
+  filter: drop-shadow(2px 2px 0 hsl(0 0% 0% / 0.8));
+}
+
+/* poster cards */
+.thumbnail-container img.card {
+  border: 2px solid hsl(0 0% 22%) !important;
+  box-shadow: 3px 3px 0 hsl(0 0% 0% / 0.5) !important;
+}
+
+/* mobile nav accent */
+@media (max-width: 1190px) {
+  .mobile-navigation-page-links .nav-item {
+    font-family: "Permanent Marker", cursive;
+    font-size: 14px !important;
+  }
+
+  .mobile-navigation-page-links .nav-item.active,
+  .mobile-navigation-page-links .nav-item[aria-current="page"] {
+    color: var(--pr-orange) !important;
+    border-bottom: 2px solid var(--pr-orange);
+  }
+}
