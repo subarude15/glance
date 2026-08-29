@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=390" />
+  <title>punk &amp; rally — Mobile Home</title>
+  <link rel="stylesheet" href="theme.css" />
+  <style>
+    /* Force mobile composition for Stitch screenshots at phone width */
+    .page-columns.home { grid-template-columns: 1fr !important; }
+    .hide-mobile { display: none !important; }
+    .mobile-nav { display: flex !important; }
+    .nav-links { display: none !important; }
+    .shell { max-width: 390px; padding-bottom: 5rem; }
+    body { max-width: 390px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topnav">
+      <img src="../assets/logo.jpg" alt="" />
+      <div class="brand">punk &amp; rally</div>
+    </header>
+
+    <div class="page-columns home">
+      <div class="stack">
+        <section class="widget">
+          <div class="widget-header">clock</div>
+          <div class="stats">
+            <div class="clock-block"><div class="clock-time">4:12</div><div class="clock-label">HOME</div></div>
+            <div class="clock-block"><div class="clock-time">5:12</div><div class="clock-label">GUAM</div></div>
+          </div>
+        </section>
+        <section class="widget">
+          <div class="widget-header">internet</div>
+          <div class="stats">
+            <div><div class="stat-num">940</div><div class="stat-label">DOWN</div></div>
+            <div><div class="stat-num">42</div><div class="stat-label">UP</div></div>
+            <div><div class="stat-num">8</div><div class="stat-label">PING</div></div>
+          </div>
+        </section>
+        <section class="widget">
+          <div class="widget-header">trending</div>
+          <div class="media-row">
+            <div class="thumb" style="background:linear-gradient(160deg,#333,#111);"></div>
+            <div>
+              <p class="media-title">Sample Movie One</p>
+              <p class="media-sub">Movie</p>
+              <p class="media-desc">Mobile stacked feed — brand stays visible in the header.</p>
+            </div>
+          </div>
+        </section>
+        <section class="widget">
+          <div class="widget-header">grab</div>
+          <div class="pills">
+            <span class="pill">Radarr</span>
+            <span class="pill">Sonarr</span>
+            <span class="pill">Deluge</span>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Pages">
+    <a class="active" href="mobile-home.html">Home</a>
+    <a href="watch.html">Watch</a>
+    <a href="#">Request</a>
+  </nav>
+</body>
+</html>
