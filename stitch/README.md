@@ -10,7 +10,7 @@ Static design pack for feeding **punk & rally** into [Google Stitch](https://sti
 | [`index.html`](index.html) | Hub linking mockups |
 | [`mockups/`](mockups/) | Sanitized UI references (sample data only) |
 | [`PROMPTS.md`](PROMPTS.md) | Ready-to-paste Stitch prompts |
-| [`assets/`](assets/) | Logo + wall texture |
+| [`assets/`](assets/) | Logo |
 
 ## Feed Stitch (recommended)
 

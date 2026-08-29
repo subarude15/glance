@@ -1,55 +1,64 @@
 ---
 version: alpha
 name: punk & rally
-description: Distressed street-art homelab dashboard theme for Glance — dark wall texture, Permanent Marker titles, IBM Plex Mono stats, orange/teal accents, hard offset shadows.
+description: Clean studio-style Glance dashboard — DM Sans neo-grotesk type, orange accent, soft surfaces, dual light/dark via prefers-color-scheme. Mobile-first widget grid.
 colors:
-  background: "#0A0A0A"
+  background: "#121212"
+  background-light: "#F7F6F3"
   surface: "#1A1A1A"
-  surface-elevated: "rgba(26, 26, 26, 0.92)"
-  border: "#2E2E2E"
-  border-strong: "#383838"
-  primary: "#FF6600"
-  secondary: "#10C6B7"
-  tertiary: "#FF6600"
-  neutral: "#0A0A0A"
-  on-primary: "#0A0A0A"
-  on-surface: "#F2F2F2"
-  muted: "#8A8A8A"
-  positive: "#10C6B7"
-  negative: "#E83030"
-  shadow: "rgba(0, 0, 0, 0.55)"
+  surface-light: "#FFFFFF"
+  surface-elevated: "rgba(26, 26, 26, 0.88)"
+  border: "rgba(255, 255, 255, 0.08)"
+  border-light: "rgba(0, 0, 0, 0.08)"
+  primary: "#FB4617"
+  primary-light: "#E03D12"
+  secondary: "#3BA89C"
+  tertiary: "#FB4617"
+  neutral: "#121212"
+  on-primary: "#FFFFFF"
+  on-surface: "#F5F5F5"
+  on-surface-light: "#111111"
+  muted: "#8C8C8C"
+  positive: "#3BA89C"
+  negative: "#E03A3A"
+  shadow: "transparent"
 typography:
   brand:
-    fontFamily: Permanent Marker
+    fontFamily: DM Sans
     fontSize: 1.25rem
-    fontWeight: "400"
-    letterSpacing: 0.04em
+    fontWeight: "700"
+    letterSpacing: -0.03em
   widget-title:
-    fontFamily: Permanent Marker
-    fontSize: 1.1rem
-    fontWeight: "400"
-    letterSpacing: 0.04em
+    fontFamily: DM Sans
+    fontSize: 1.05rem
+    fontWeight: "600"
+    letterSpacing: -0.03em
   stat-num:
-    fontFamily: IBM Plex Mono
+    fontFamily: DM Sans
     fontSize: 1.75rem
     fontWeight: "700"
+    letterSpacing: -0.04em
   stat-label:
-    fontFamily: IBM Plex Mono
+    fontFamily: DM Sans
     fontSize: 0.65rem
-    fontWeight: "500"
-    letterSpacing: 0.12em
+    fontWeight: "600"
+    letterSpacing: 0.08em
   body:
-    fontFamily: IBM Plex Mono
+    fontFamily: DM Sans
     fontSize: 0.9rem
     fontWeight: "500"
+    letterSpacing: -0.01em
   nav:
-    fontFamily: Permanent Marker
+    fontFamily: DM Sans
     fontSize: 0.875rem
-    fontWeight: "400"
+    fontWeight: "600"
+    letterSpacing: -0.02em
 rounded:
   none: 0px
-  sm: 2px
-  md: 5px
+  sm: 6px
+  md: 10px
+  lg: 12px
+  pill: 999px
 spacing:
   xs: 4px
   sm: 8px
@@ -59,28 +68,28 @@ spacing:
   2xl: 32px
 components:
   widget-card:
-    backgroundColor: "{colors.surface-elevated}"
+    backgroundColor: "{colors.surface}"
     textColor: "{colors.on-surface}"
-    rounded: "{rounded.none}"
+    rounded: "{rounded.md}"
     padding: 20px
   page-canvas:
     backgroundColor: "{colors.background}"
     textColor: "{colors.on-surface}"
   bookmark-pill:
-    backgroundColor: "{colors.neutral}"
+    backgroundColor: "transparent"
     textColor: "{colors.on-surface}"
-    rounded: "{rounded.none}"
+    rounded: "{rounded.pill}"
     padding: 8px
   bookmark-pill-hover:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.on-surface}"
+    backgroundColor: "rgba(251, 70, 23, 0.08)"
+    textColor: "{colors.primary}"
   stat-number:
     backgroundColor: "transparent"
     textColor: "{colors.primary}"
     typography: "{typography.stat-num}"
   stat-label:
     backgroundColor: "transparent"
-    textColor: "{colors.positive}"
+    textColor: "{colors.muted}"
     typography: "{typography.stat-label}"
   muted-copy:
     backgroundColor: "transparent"
@@ -98,84 +107,84 @@ components:
   poster-thumb:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.on-surface}"
-    rounded: "{rounded.md}"
+    rounded: "{rounded.sm}"
   widget-border:
     backgroundColor: "{colors.border}"
-    textColor: "{colors.border-strong}"
+    textColor: "{colors.border}"
 ---
 
 ## Overview
 
-**punk & rally** is a homelab media dashboard (Glance) with a distressed street-art vibe: spray-paint titles, sticker-style link chips, hard comic-book shadows, and a dark concrete wall texture behind everything.
+**punk & rally** is a homelab media dashboard (Glance) with a clean studio aesthetic inspired by contemporary product-design portfolios: neo-grotesk type, near-black / warm-off-white canvases, a single orange accent, soft card radii, and no comic-book chrome.
 
-Brand name must read as a hero signal — Permanent Marker, lowercase where titles appear. The product is not a soft SaaS dashboard; it should feel like a garage wall plastered with stickers and stats.
+Brand name stays **punk & rally** — set in DM Sans, not marker fonts. The UI should feel calm and inevitable, not busy.
 
 Pages: **Home** (ops: clock, weather, speed, NAS, search, trending media), **Watch** (Emby library + now playing + stream bookmarks), **Request** (Seerr iframe). Desktop uses multi-column layout; mobile stacks columns and uses a bottom page-link bar.
 
+Theme follows the OS: `prefers-color-scheme` drives light/dark. No in-app theme picker.
+
 ## Colors
 
-Dark-first palette with two loud accents only.
+One accent; surfaces stay quiet.
 
-- **Background (#0A0A0A):** Near-black base; always layered with wall texture + noise, never flat.
-- **Surface (#1A1A1A / 92% alpha):** Widget cards — slightly lifted over the wall.
-- **Primary / orange (#FF6600):** Stats, active nav, bookmark borders, now-playing accents, logo drop-shadow energy.
-- **Secondary / teal (#10C6B7):** Labels, healthy/positive states, “all clear” messaging.
-- **Negative (#E83030):** Failures and unhealthy container states only.
-- **Muted (#8A8A8A):** Secondary copy, empty states (“nothing on rn.”).
+- **Dark background (#121212):** Near-black with a soft orange radial wash + light grain — never a concrete wall texture.
+- **Light background (#F7F6F3):** Warm off-white with the same subtle washes.
+- **Surface:** Slightly lifted cards (`#1A1A1A` dark / white light) with 1px hairline borders.
+- **Primary / orange (#FB4617):** Links, stats, active nav, now-playing accents. Slightly darker on light backgrounds.
+- **Positive / teal (#3BA89C):** Healthy/meta only — quieter than the orange.
+- **Negative:** Failures only.
+- **Muted:** Secondary labels and empty states.
 
-Do not introduce purple, glow blurs, or soft pastel fills. Keep contrast harsh.
+Do not use purple-indigo SaaS gradients, glow stacks, hard offset shadows, or street-art textures.
 
 ## Typography
 
-Two expressive faces — never Inter/Roboto/system UI defaults.
+Single family — **DM Sans** (500/600/700). Avoid Inter, Roboto, Arial, and system UI defaults as the primary face.
 
-- **Permanent Marker:** Brand, widget titles, mobile nav, celebratory status (“all clear.”). Prefer lowercase titles with slight letter-spacing.
-- **IBM Plex Mono (500/700):** Body, stats, labels. Stat numbers are bold orange; labels are tiny teal uppercase with wide tracking.
+- Titles: weight 600, tight tracking (~-0.03em), sentence case (no forced lowercase Marker look).
+- Stats: weight 700, orange, tighter tracking.
+- Labels: tiny uppercase, muted, modest tracking.
 
 ## Layout
 
-- **Desktop Home:** 3 columns — small | full | small. Left: clock, weather, internet, server, devices, search, bookmarks, app monitor. Center: trending + new movies/TV. Right: docker alerts + restart/files shortcuts.
-- **Watch:** Single full-width column of stacked widgets (play bookmarks → library stats → now playing → Emby status → stream bookmarks).
-- **Widgets:** Hard 2px border (`#2E2E2E`), `4px 4px 0` black offset shadow, orange dashed stripe along the top edge of each card.
+- **Desktop Home:** 3 columns — small | full | small.
+- **Watch:** Single full-width stack.
+- **Widgets:** 1px hairline border, 10–12px radius, no hard shadows, no top dashed stripe.
 - **Breakpoints:** Below ~1190px, columns stack; docker alerts hide; bottom nav shows page links only.
 
 ## Elevation & Depth
 
-- Cards use hard offset shadows (`4px 4px 0 rgba(0,0,0,0.55)`), not soft multi-layer blurs.
-- Logo uses a hard drop-shadow (`2px 2px 0`).
-- Bookmark pills lift 1px on hover (`translate(-1px,-1px)` + stronger shadow).
-- Wall texture (`soft-light`) + SVG noise (`overlay`) sit behind all content; `background-attachment: fixed`.
+- Prefer flat cards with hairline borders over shadows.
+- Atmosphere comes from soft radial washes + subtle SVG grain, not photos of walls.
+- Bookmark chips are ghost outlines that tint orange on hover — no sticker lift.
 
 ## Shapes
 
-- Default radius is effectively square (`0–2px`). Poster thumbnails may use `5px`.
-- No pill clusters, no floating badges over hero media, no rounded-full chrome.
-- Bookmark links are rectangular “sticker” chips with 2px orange borders.
+- Card radius ~10px; posters ~6px; bookmark chips fully pill.
+- No Permanent Marker titles, no 2px comic borders, no `4px 4px 0` shadows.
 
 ## Components
 
-- **Widget card:** Dark translucent panel, orange top stripe, Permanent Marker title.
-- **Stat block:** Centered number (orange mono) + tiny teal label underneath.
-- **Bookmark sticker:** Inline chip, orange border, hard shadow, hover nudge.
-- **Now playing row:** Left orange border, user/title in orange, device meta in teal.
-- **Poster row:** 5rem thumb with 2px border + hard shadow beside title/overview.
-- **Docker alerts:** Hide healthy rows; if none left, show “all clear.” in Marker teal.
-- **Nav logo:** Compact brand mark (~2.25rem tall) with hard drop-shadow.
+- **Widget card:** Quiet surface, DM Sans title, hairline border.
+- **Stat block:** Large orange number + muted uppercase label.
+- **Bookmark chip:** Pill outline; orange border/tint on hover.
+- **Now playing row:** 2px orange left rule; user in accent; meta muted.
+- **Poster row:** Soft-radius thumb with hairline border.
+- **Docker alerts:** Hide healthy rows; empty → “all clear.” in positive teal.
+- **Mobile nav:** Frosted bar, DM Sans labels, orange underline on active.
 
 ## Do's and Don'ts
 
 **Do**
 
-- Keep the wall texture + noise atmosphere on every screen.
-- Use orange for energy/interaction and teal for healthy/meta labels.
-- Preserve Permanent Marker + IBM Plex Mono pairing.
-- Prefer hard offset shadows and sticker borders over soft UI chrome.
-- Design for Glance’s widget grid (cards in columns), not a marketing landing page.
+- Keep orange as the only loud accent; teal for healthy/meta.
+- Support light and dark equally via `prefers-color-scheme`.
+- Design mobile-first (stacked columns + bottom page links).
+- Preserve the **punk & rally** name in the nav/brand mark.
 
 **Don't**
 
-- Don’t flatten to a single solid background.
-- Don’t swap in Inter/Roboto/system fonts or purple-indigo SaaS gradients.
-- Don’t add floating promo chips, glow effects, or soft card blur stacks.
-- Don’t put private IPs, API keys, or live credentials in Stitch mockups — use sample data only.
-- Don’t overpower the **punk & rally** brand with a larger generic headline.
+- Don’t bring back wall textures, Permanent Marker, IBM Plex Mono sticker chrome, or hard offset shadows.
+- Don’t add Inter/Roboto/system fonts, purple glows, or dense card clutter.
+- Don’t put private IPs, API keys, or live credentials in Stitch mockups — sample data only.
+- Don’t overpower the brand name with a larger generic headline.

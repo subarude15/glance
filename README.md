@@ -1,6 +1,6 @@
 # punk & rally — Glance
 
-Homelab dashboard for [Glance](https://github.com/glanceapp/glance): street-art theme, Emby library + now playing, and Docker container alerts.
+Homelab dashboard for [Glance](https://github.com/glanceapp/glance): clean studio theme (light/dark via `prefers-color-scheme`), Emby library + now playing, and Docker container alerts.
 
 ## Setup
 
@@ -20,10 +20,12 @@ Homelab dashboard for [Glance](https://github.com/glanceapp/glance): street-art 
 | Path | Notes |
 |------|--------|
 | `config/glance.yml` | Pages, widgets, theme |
-| `assets/` | CSS, logo, wall texture |
+| `assets/` | CSS + logo (`studio.css`) |
 | `compose.yaml` | Glance + Docker socket + assets mount |
 
 `.env` is gitignored — never commit API keys.
+
+Theme follows the OS color scheme (no in-app picker). Branding name stays **punk & rally**.
 
 ## Google Stitch design export
 

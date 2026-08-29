@@ -8,9 +8,9 @@ Import `DESIGN.md` (repo root) into the Stitch project first so colors/type stic
 
 ```
 Redesign this homelab media dashboard called "punk & rally".
-Web, desktop, dark distressed street-art aesthetic.
-Wall texture background, Permanent Marker widget titles (lowercase), IBM Plex Mono orange stats and teal labels.
-Hard offset black shadows, 2px borders, orange sticker-style bookmark chips, no soft cards or purple gradients.
+Web, desktop, clean studio aesthetic with light and dark variants via prefers-color-scheme.
+Near-black / warm off-white canvas, soft radial washes, DM Sans neo-grotesk type, orange #FB4617 accent, quiet teal for healthy states.
+Soft 10px-radius cards, 1px hairline borders, no hard shadows, no wall textures, no sticker chrome.
 Layout: 3 columns — left ops widgets (clock, weather, internet speed, server stats, devices, search, app links), center trending media list with posters, right container alerts.
 Brand name "punk & rally" must stay hero-level in the header with the logo.
 Follow the attached DESIGN.md tokens exactly.
@@ -20,31 +20,31 @@ Follow the attached DESIGN.md tokens exactly.
 
 ```
 Create the Watch page for "punk & rally" homelab dashboard.
-Single full-width column of widgets: Play bookmarks (Emby, Books, Seerr) as orange-border sticker chips; Library stats (movies/series/episodes) as large orange mono numbers with teal uppercase labels; Now playing list with orange left border; Emby status rows; Stream bookmark chips.
-Same street-art dark theme as DESIGN.md — Permanent Marker titles, hard shadows, wall texture.
+Single full-width column of widgets: Play bookmarks (Emby, Books, Seerr) as ghost pill chips; Library stats (movies/series/episodes) as large orange DM Sans numbers with muted uppercase labels; Now playing list with thin orange left border; Emby status rows; Stream bookmark chips.
+Same clean studio theme as DESIGN.md — DM Sans titles, soft cards, dual light/dark.
 ```
 
 ## Seed — mobile
 
 ```
 Mobile web version of the punk & rally Home dashboard.
-Stacked widgets, bottom page nav (Home / Watch / Request) with Permanent Marker labels and orange active underline.
+Stacked widgets, bottom page nav (Home / Watch / Request) with DM Sans labels and orange active underline.
 Keep brand logo + "punk & rally" in the header. Hide the right-rail docker alerts.
-Match DESIGN.md: orange #FF6600, teal #10C6B7, near-black wall background, hard shadows.
+Match DESIGN.md: orange #FB4617, teal #3BA89C, quiet surfaces, soft radius, no comic shadows.
 ```
 
 ## Iterate — visual variants
 
 ```
-Keep layout and widgets the same, explore three visual variants of the punk & rally theme:
-1) more distressed / graffiti
-2) cleaner but still sticker/street
-3) higher contrast neon orange on charcoal
-Do not change fonts away from Permanent Marker + IBM Plex Mono.
+Keep layout and widgets the same, explore three visual variants of the punk & rally studio theme:
+1) darker charcoal with stronger orange accent
+2) warmer light mode paper background
+3) slightly denser type scale for ops readability
+Keep DM Sans; do not reintroduce Permanent Marker, wall textures, or hard offset shadows.
 ```
 
 ## Iterate — denser ops
 
 ```
-Tighten the Home left column: smaller padding, denser stats, keep sticker bookmarks and orange top stripe on each widget. Still readable on a 1440px desktop.
+Tighten the Home left column: smaller padding, denser stats, keep ghost pill bookmarks and quiet card chrome. Still readable on a 1440px desktop.
 ```
