@@ -1,0 +1,29 @@
+services:
+  glance:
+    image: ghcr.io/subarude15/glance:latest
+    container_name: glance
+    restart: unless-stopped
+    ports:
+      - "7580:8080"
+    env_file:
+      - .env
+    environment:
+      SEERR_URL: http://192.168.1.2:5055
+      SEERR_HREF: https://seerr.banditoburrito.xyz
+      SEERR_API_KEY: ${SEERR_API_KEY}
+      SPEEDTEST_API_TOKEN: ${SPEEDTEST_API_TOKEN}
+      EMBY_API_KEY: ${EMBY_API_KEY}
+    volumes:
+      - /volume1/docker/glance/config:/app/config
+      - /volume1/docker/glance/assets:/app/assets
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - default
+      - stt
+
+networks:
+  stt:
+    name: speedtest-tracker_default
+    external: true
