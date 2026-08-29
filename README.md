@@ -24,3 +24,14 @@ Homelab dashboard for [Glance](https://github.com/glanceapp/glance): street-art 
 | `compose.yaml` | Glance + Docker socket + assets mount |
 
 `.env` is gitignored — never commit API keys.
+
+## Google Stitch design export
+
+To redesign the UI in [Google Stitch](https://stitch.withgoogle.com/) without logging into the live dashboard:
+
+| Path | Use |
+|------|-----|
+| [`DESIGN.md`](DESIGN.md) | Import into Stitch as the design system |
+| [`stitch/`](stitch/) | Static mockups + prompts (sample data only) |
+
+See [`stitch/README.md`](stitch/README.md) for the full workflow (DESIGN.md import, screenshots, or public URL extraction).
