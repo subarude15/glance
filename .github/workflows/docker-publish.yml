@@ -1,29 +1,38 @@
-services:
-  glance:
-    image: ghcr.io/subarude15/glance:latest
-    container_name: glance
-    restart: unless-stopped
-    ports:
-      - "7580:8080"
-    env_file:
-      - .env
-    environment:
-      SEERR_URL: http://192.168.1.2:5055
-      SEERR_HREF: https://seerr.banditoburrito.xyz
-      SEERR_API_KEY: ${SEERR_API_KEY}
-      SPEEDTEST_API_TOKEN: ${SPEEDTEST_API_TOKEN}
-      EMBY_API_KEY: ${EMBY_API_KEY}
-    volumes:
-      - /volume1/docker/glance/config:/app/config
-      - /volume1/docker/glance/assets:/app/assets
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      - default
-      - stt
+name: Build and Publish to GHCR
 
-networks:
-  stt:
-    name: speedtest-tracker_default
-    external: true
+on:
+  push:
+    branches:
+      - main # Change this to 'master' if that is your default branch
+
+env:
+  REGISTRY: ghcr.io
+  # github.repository automatically resolves to 'subarude15/glance'
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    # These permissions allow the GitHub Token to push to GHCR natively
+    permissions:
+      contents: read
+      packages: write 
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
