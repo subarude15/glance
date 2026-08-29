@@ -9,16 +9,39 @@ branding:
   hide-footer: true
 
 theme:
-  background-color: 0 0 4
-  primary-color: 24 100 50
-  positive-color: 175 85 42
-  negative-color: 0 80 55
-  contrast-multiplier: 1.25
-  custom-css-file: /assets/punk-rally.css
+  background-color: 0 0 7
+  primary-color: 14 97 54
+  positive-color: 175 45 42
+  negative-color: 0 75 55
+  contrast-multiplier: 1.15
+  custom-css-file: /assets/studio.css
   disable-picker: true
 
 document:
   head: |
+    <script>
+    (function () {
+      function applyScheme() {
+        var light = false;
+        try {
+          light = window.matchMedia("(prefers-color-scheme: light)").matches;
+        } catch (e) {}
+        var scheme = light ? "light" : "dark";
+        document.documentElement.setAttribute("data-scheme", scheme);
+        var meta = document.querySelector('meta[name="color-scheme"]');
+        if (meta) meta.setAttribute("content", scheme);
+        document.documentElement.style.colorScheme = scheme;
+      }
+      applyScheme();
+      try {
+        window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", applyScheme);
+      } catch (e) {
+        try {
+          window.matchMedia("(prefers-color-scheme: light)").addListener(applyScheme);
+        } catch (e2) {}
+      }
+    })();
+    </script>
     <style>
     @media (max-width: 1190px) {
       :root { --mobile-navigation-height: 56px; }

@@ -7,24 +7,36 @@
   <link rel="stylesheet" href="mockups/theme.css" />
   <style>
     .hub { max-width: 720px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
-    .hub h1 { font-family: "Permanent Marker", cursive; font-size: 2.5rem; color: var(--pr-orange); letter-spacing: 0.04em; margin: 0 0 0.5rem; }
-    .hub p { color: #c8c8c8; line-height: 1.5; }
+    .hub h1 {
+      font-family: "DM Sans", "Segoe UI", sans-serif;
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--pr-orange);
+      letter-spacing: -0.03em;
+      margin: 0 0 0.5rem;
+    }
+    .hub p { color: var(--pr-muted); line-height: 1.5; }
     .hub a { color: var(--pr-teal); }
     .hub .panel { margin-top: 1.5rem; }
-    .hub ul { margin: 0.75rem 0 0; padding-left: 1.2rem; color: #ddd; }
+    .hub ul { margin: 0.75rem 0 0; padding-left: 1.2rem; color: var(--pr-text); }
     .hub li { margin: 0.4rem 0; }
-    .hub code { font-family: "IBM Plex Mono", monospace; font-size: 0.85em; color: var(--pr-orange); }
+    .hub code { font-size: 0.85em; color: var(--pr-orange); }
+    .hub img {
+      border: 1px solid var(--pr-border);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
   <main class="hub">
-    <img src="assets/logo.jpg" alt="punk &amp; rally" width="72" height="72" style="border:2px solid #383838; box-shadow:3px 3px 0 #000; margin-bottom:1rem;" />
+    <img src="assets/logo.jpg" alt="punk &amp; rally" width="72" height="72" />
     <h1>punk &amp; rally</h1>
-    <p>Static design export for <a href="https://stitch.withgoogle.com/">Google Stitch</a>. Sample data only — no secrets, no private IPs.</p>
+    <p>Static design export for <a href="https://stitch.withgoogle.com/">Google Stitch</a>. Sample data only — no secrets, no private IPs. Theme follows OS light/dark.</p>
 
     <section class="widget panel">
       <div class="widget-header">how to use in Stitch</div>
-      <ol style="margin:0; padding-left:1.2rem; color:#ddd; line-height:1.6;">
+      <ol style="margin:0; padding-left:1.2rem; color:var(--pr-muted); line-height:1.6;">
         <li>Import <code>DESIGN.md</code> from the repo root into a Stitch project (design rules).</li>
         <li>Open a mockup below, screenshot it, upload as a reference image in Experimental / Pro mode.</li>
         <li>Paste a prompt from <code>PROMPTS.md</code> and iterate.</li>
@@ -46,7 +58,7 @@
       <ul>
         <li><code>../DESIGN.md</code> — Stitch-native design system</li>
         <li><code>PROMPTS.md</code> — copy/paste generation prompts</li>
-        <li><code>assets/</code> — logo + wall texture</li>
+        <li><code>assets/</code> — logo</li>
       </ul>
     </section>
   </main>
