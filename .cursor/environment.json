@@ -1,0 +1,12 @@
+{
+  "name": "punk & rally — Glance",
+  "install": "./.cursor/install.sh",
+  "start": "./.cursor/start.sh",
+  "terminals": [
+    {
+      "name": "glance logs",
+      "command": "until sudo docker ps --format '{{.Names}}' | grep -q '^glance-dev$'; do sleep 2; done; sudo docker logs -f glance-dev"
+    }
+  ],
+  "ports": [7580]
+}
