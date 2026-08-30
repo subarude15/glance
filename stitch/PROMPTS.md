@@ -20,7 +20,9 @@ Follow the attached DESIGN.md tokens exactly.
 
 ```
 Create the Watch page for "punk & rally" homelab dashboard.
-Single full-width column of widgets: Play bookmarks (Emby, Books, Seerr) as ghost pill chips; Library stats (movies/series/episodes) as large orange DM Sans numbers with muted uppercase labels; Now playing list with thin orange left border; Emby status rows; Stream bookmark chips.
+Responsive 2-column layout (small sidebar + full main stack):
+Left column: Play bookmarks (Emby, Books, Seerr) as ghost pill chips and Emby server status monitor.
+Right column: Library stats (movies/series/episodes) as large orange DM Sans numbers with muted uppercase labels; Now playing list with thin orange left border; Stream bookmark chips.
 Same clean studio theme as DESIGN.md — DM Sans titles, soft cards, dual light/dark.
 ```
 
@@ -28,9 +30,9 @@ Same clean studio theme as DESIGN.md — DM Sans titles, soft cards, dual light/
 
 ```
 Mobile web version of the punk & rally Home dashboard.
-Stacked widgets, bottom page nav (Home / Watch / Request) with DM Sans labels and orange active underline.
+Stacked widgets, Apple liquid-glass floating pill bottom nav (Home / Watch / Request) with DM Sans labels and active orange pill chip.
 Keep brand logo + "punk & rally" in the header. Hide the right-rail docker alerts.
-Match DESIGN.md: orange #FB4617, teal #3BA89C, quiet surfaces, soft radius, no comic shadows.
+Match DESIGN.md: orange #FB4617, teal #3BA89C, quiet surfaces, soft radius, liquid glass blur, no comic shadows.
 ```
 
 ## Iterate — visual variants

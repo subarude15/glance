@@ -148,9 +148,9 @@ Single family — **DM Sans** (500/600/700). Avoid Inter, Roboto, Arial, and sys
 ## Layout
 
 - **Desktop Home:** 3 columns — small | full | small.
-- **Watch:** Single full-width stack.
+- **Watch:** 2 columns (small | full) on desktop/laptop/tablet (Play bookmarks & status on left, Library stats, Now Playing, and Stream bookmarks on right); stacks neatly on mobile phones.
 - **Widgets:** 1px hairline border, 10–12px radius, no hard shadows, no top dashed stripe.
-- **Breakpoints:** Below ~1190px, columns stack; docker alerts hide; bottom nav shows page links only.
+- **Breakpoints:** Below ~1190px, columns stack; docker alerts hide; floating liquid-glass pill nav shows page links at the bottom.
 
 ## Elevation & Depth
 
@@ -160,7 +160,7 @@ Single family — **DM Sans** (500/600/700). Avoid Inter, Roboto, Arial, and sys
 
 ## Shapes
 
-- Card radius ~10px; posters ~6px; bookmark chips fully pill.
+- Card radius ~10px; posters ~6px; bookmark chips fully pill; mobile floating navigation pill.
 - No Permanent Marker titles, no 2px comic borders, no `4px 4px 0` shadows.
 
 ## Components
@@ -171,7 +171,7 @@ Single family — **DM Sans** (500/600/700). Avoid Inter, Roboto, Arial, and sys
 - **Now playing row:** 2px orange left rule; user in accent; meta muted.
 - **Poster row:** Soft-radius thumb with hairline border.
 - **Docker alerts:** Hide healthy rows; empty → “all clear.” in positive teal.
-- **Mobile nav:** Frosted bar, DM Sans labels, orange underline on active.
+- **Mobile/Floating nav:** Apple-style liquid glass floating pill at bottom, frosted blur with saturation boost, specular inner highlights, active orange pill indicator.
 
 ## Do's and Don'ts
 

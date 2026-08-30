@@ -44,28 +44,96 @@ document:
     </script>
     <style>
     @media (max-width: 1190px) {
-      :root { --mobile-navigation-height: 56px; }
+      :root { --mobile-navigation-height: 52px; }
       .page-columns { flex-direction: column !important; }
       .page-column { display: block !important; width: 100% !important; }
+      .body-content { padding-bottom: calc(var(--mobile-navigation-height) + 32px + env(safe-area-inset-bottom, 0px)) !important; }
       .mobile-navigation {
-        transform: translateY(calc(100% - var(--mobile-navigation-height) - var(--safe-area-inset-bottom))) !important;
+        position: fixed !important;
+        left: 50% !important;
+        right: auto !important;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+        top: auto !important;
+        transform: translateX(-50%) !important;
+        width: auto !important;
+        max-width: min(calc(100vw - 32px), 380px) !important;
+        height: auto !important;
+        margin: 0 auto !important;
+        padding: 4px !important;
+        background: hsl(0 0% 12% / 0.65) !important;
+        backdrop-filter: blur(24px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+        border: 1px solid hsl(0 0% 100% / 0.18) !important;
+        border-radius: 999px !important;
+        box-shadow:
+          0 10px 32px -4px rgba(0, 0, 0, 0.45),
+          0 2px 8px -1px rgba(0, 0, 0, 0.25),
+          inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
+          inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3) !important;
+        z-index: 9999 !important;
+      }
+      html[data-scheme="light"] .mobile-navigation {
+        background: hsl(40 10% 98% / 0.7) !important;
+        border: 1px solid hsl(0 0% 100% / 0.6) !important;
+        box-shadow:
+          0 10px 32px -4px rgba(0, 0, 0, 0.12),
+          0 2px 8px -1px rgba(0, 0, 0, 0.08),
+          inset 0 1px 1px 0 rgba(255, 255, 255, 0.8),
+          inset 0 -1px 1px 0 rgba(0, 0, 0, 0.05) !important;
       }
       .mobile-navigation-icons { display: none !important; }
       .mobile-navigation-actions { display: none !important; }
       .mobile-navigation-page-links {
         display: flex !important;
-        height: var(--mobile-navigation-height);
-        align-items: center;
-        justify-content: space-around;
-        gap: 0 !important;
-        padding: 0 8px !important;
+        height: auto !important;
+        min-height: 40px !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 4px !important;
+        padding: 2px !important;
         border: 0 !important;
-        overflow: hidden;
+        overflow: visible !important;
+        background: transparent !important;
       }
       .mobile-navigation-page-links .nav-item {
-        font-size: 13px;
-        font-weight: 600;
-        padding: 10px 14px;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-family: "DM Sans", "Segoe UI", sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        letter-spacing: -0.01em !important;
+        padding: 8px 18px !important;
+        border-radius: 999px !important;
+        color: hsl(0 0% 100% / 0.65) !important;
+        background: transparent !important;
+        border: none !important;
+        text-decoration: none !important;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      }
+      html[data-scheme="light"] .mobile-navigation-page-links .nav-item {
+        color: hsl(0 0% 10% / 0.65) !important;
+      }
+      .mobile-navigation-page-links .nav-item:hover {
+        color: hsl(0 0% 100% / 0.9) !important;
+        background: hsl(0 0% 100% / 0.08) !important;
+      }
+      html[data-scheme="light"] .mobile-navigation-page-links .nav-item:hover {
+        color: hsl(0 0% 10% / 0.95) !important;
+        background: hsl(0 0% 0% / 0.05) !important;
+      }
+      .mobile-navigation-page-links .nav-item.active,
+      .mobile-navigation-page-links .nav-item[aria-current="page"] {
+        color: #ffffff !important;
+        background: var(--pr-accent, hsl(14 97% 54%)) !important;
+        box-shadow: 0 2px 10px -1px hsl(14 97% 54% / 0.45) !important;
+        border-bottom: none !important;
+      }
+      html[data-scheme="light"] .mobile-navigation-page-links .nav-item.active,
+      html[data-scheme="light"] .mobile-navigation-page-links .nav-item[aria-current="page"] {
+        color: #ffffff !important;
+        background: var(--pr-accent, hsl(14 97% 46%)) !important;
+        box-shadow: 0 2px 10px -1px hsl(14 97% 46% / 0.35) !important;
       }
     }
     </style>
@@ -177,7 +245,7 @@ pages:
   - name: Watch
     slug: watch
     columns:
-      - size: full
+      - size: small
         widgets:
           - type: bookmarks
             groups:
@@ -195,6 +263,22 @@ pages:
                   - title: Seerr
                     url: ${SEERR_HREF}
                     icon: di:overseerr
+
+          - type: monitor
+            cache: 1m
+            title: Emby status
+            sites:
+              - title: Emby
+                url: https://embytest1.banditoburrito.xyz
+                check-url: http://192.168.1.143:8096/emby/System/Info/Public
+                icon: di:emby
+              - title: Emby backup
+                url: https://emby.banditoburrito.xyz
+                check-url: http://192.168.1.2:8096/emby/System/Info/Public
+                icon: di:emby
+
+      - size: full
+        widgets:
           - type: custom-api
             title: Library
             css-class: emby-library
@@ -222,6 +306,7 @@ pages:
               {{ else }}
               <p class="color-negative">Could not load library stats. Check EMBY_API_KEY.</p>
               {{ end }}
+
           - type: custom-api
             title: Now playing
             css-class: emby-now-playing
@@ -260,18 +345,7 @@ pages:
               {{ else }}
               <p class="color-negative">Could not load sessions. Check EMBY_API_KEY.</p>
               {{ end }}
-          - type: monitor
-            cache: 1m
-            title: Emby status
-            sites:
-              - title: Emby
-                url: https://embytest1.banditoburrito.xyz
-                check-url: http://192.168.1.143:8096/emby/System/Info/Public
-                icon: di:emby
-              - title: Emby backup
-                url: https://emby.banditoburrito.xyz
-                check-url: http://192.168.1.2:8096/emby/System/Info/Public
-                icon: di:emby
+
           - type: bookmarks
             groups:
               - title: "Stream (Safari, Nick. Ads hate that.)"
