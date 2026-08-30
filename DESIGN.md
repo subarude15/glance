@@ -148,7 +148,7 @@ Single family — **DM Sans** (500/600/700). Avoid Inter, Roboto, Arial, and sys
 ## Layout
 
 - **Desktop Home:** 3 columns — small | full | small.
-- **Watch:** 2 columns (small | full) on desktop/laptop/tablet (Play bookmarks & status on left, Library stats, Now Playing, and Stream bookmarks on right); stacks neatly on mobile phones.
+- **Watch:** `width: slim` with 2 equal columns (Play + Emby status | Library + Now Playing + Stream) so tablet/laptop never ultra-stretch; stacks on phones (&lt;700px).
 - **Widgets:** 1px hairline border, 10–12px radius, no hard shadows, no top dashed stripe.
 - **Breakpoints:** Below ~1190px, columns stack; docker alerts hide; floating liquid-glass pill nav shows page links at the bottom.
 

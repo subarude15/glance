@@ -198,9 +198,40 @@ html[data-scheme="light"] body {
   color: var(--pr-accent) !important;
 }
 
+/* Watch page — slim dual columns, equal width (no ultra-wide stretch) */
+.page-content:has(.emby-library) .page-columns {
+  max-width: 920px;
+  margin-inline: auto;
+}
+
+.page-content:has(.emby-library) .page-column-small,
+.page-content:has(.emby-library) .page-column-full {
+  width: auto !important;
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+/* Tablet: keep Watch as 2-up instead of Glance's single-column switcher */
+@media (max-width: 1190px) and (min-width: 700px) {
+  .page-content:has(.emby-library) .page-columns {
+    flex-direction: row !important;
+  }
+
+  .page-content:has(.emby-library) .page-column {
+    display: block !important;
+    width: auto !important;
+    flex: 1 1 0 !important;
+  }
+}
+
 /* Mobile-first chrome & Apple liquid-glass floating pill navigation */
 @media (max-width: 1190px) {
   .docker-alerts {
+    display: none !important;
+  }
+
+  .header-container {
     display: none !important;
   }
 
@@ -212,7 +243,12 @@ html[data-scheme="light"] body {
     padding-bottom: calc(52px + 32px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
+  .mobile-navigation-offset {
+    height: calc(52px + 24px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
   .mobile-navigation {
+    display: block !important;
     position: fixed !important;
     left: 50% !important;
     right: auto !important;
@@ -222,12 +258,13 @@ html[data-scheme="light"] body {
     width: auto !important;
     max-width: min(calc(100vw - 32px), 380px) !important;
     height: auto !important;
-    margin: 0 auto !important;
+    margin: 0 !important;
     padding: 4px !important;
     background: hsl(0 0% 12% / 0.65) !important;
     backdrop-filter: blur(24px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
     border: 1px solid hsl(0 0% 100% / 0.18) !important;
+    border-bottom: 1px solid hsl(0 0% 100% / 0.18) !important;
     border-radius: 999px !important;
     box-shadow:
       0 10px 32px -4px rgba(0, 0, 0, 0.45),
@@ -235,11 +272,13 @@ html[data-scheme="light"] body {
       inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
       inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3) !important;
     z-index: 9999 !important;
+    transition: none !important;
   }
 
   html[data-scheme="light"] .mobile-navigation {
     background: hsl(40 10% 98% / 0.7) !important;
     border: 1px solid hsl(0 0% 100% / 0.6) !important;
+    border-bottom: 1px solid hsl(0 0% 100% / 0.6) !important;
     box-shadow:
       0 10px 32px -4px rgba(0, 0, 0, 0.12),
       0 2px 8px -1px rgba(0, 0, 0, 0.08),
@@ -276,7 +315,10 @@ html[data-scheme="light"] body {
     color: hsl(0 0% 100% / 0.65) !important;
     background: transparent !important;
     border: none !important;
+    border-bottom: none !important;
     text-decoration: none !important;
+    line-height: 1.2 !important;
+    height: auto !important;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
@@ -295,6 +337,7 @@ html[data-scheme="light"] body {
   }
 
   .mobile-navigation-page-links .nav-item.active,
+  .mobile-navigation-page-links .nav-item.nav-item-current,
   .mobile-navigation-page-links .nav-item[aria-current="page"] {
     color: #ffffff !important;
     background: var(--pr-accent) !important;
@@ -303,10 +346,22 @@ html[data-scheme="light"] body {
   }
 
   html[data-scheme="light"] .mobile-navigation-page-links .nav-item.active,
+  html[data-scheme="light"] .mobile-navigation-page-links .nav-item.nav-item-current,
   html[data-scheme="light"] .mobile-navigation-page-links .nav-item[aria-current="page"] {
     color: #ffffff !important;
     background: var(--pr-accent) !important;
     box-shadow: 0 2px 10px -1px hsl(14 97% 46% / 0.35) !important;
+  }
+}
+
+@media (max-width: 699px) {
+  .page-content:has(.emby-library) .page-columns {
+    flex-direction: column !important;
+  }
+
+  .page-content:has(.emby-library) .page-column {
+    width: 100% !important;
+    flex: none !important;
   }
 }
 

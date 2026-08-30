@@ -43,12 +43,37 @@ document:
     })();
     </script>
     <style>
+    /* Watch: equalize dual small columns inside slim bounds */
+    .page-content:has(.emby-library) .page-columns {
+      max-width: 920px;
+      margin-inline: auto;
+    }
+    .page-content:has(.emby-library) .page-column-small,
+    .page-content:has(.emby-library) .page-column-full {
+      width: auto !important;
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+    }
     @media (max-width: 1190px) {
       :root { --mobile-navigation-height: 52px; }
+      .header-container { display: none !important; }
       .page-columns { flex-direction: column !important; }
       .page-column { display: block !important; width: 100% !important; }
+      /* Watch tablet: keep 2-up */
+      .page-content:has(.emby-library) .page-columns {
+        flex-direction: row !important;
+      }
+      .page-content:has(.emby-library) .page-column {
+        display: block !important;
+        width: auto !important;
+        flex: 1 1 0 !important;
+      }
       .body-content { padding-bottom: calc(var(--mobile-navigation-height) + 32px + env(safe-area-inset-bottom, 0px)) !important; }
+      .mobile-navigation-offset {
+        height: calc(var(--mobile-navigation-height) + 24px + env(safe-area-inset-bottom, 0px)) !important;
+      }
       .mobile-navigation {
+        display: block !important;
         position: fixed !important;
         left: 50% !important;
         right: auto !important;
@@ -58,12 +83,13 @@ document:
         width: auto !important;
         max-width: min(calc(100vw - 32px), 380px) !important;
         height: auto !important;
-        margin: 0 auto !important;
+        margin: 0 !important;
         padding: 4px !important;
         background: hsl(0 0% 12% / 0.65) !important;
         backdrop-filter: blur(24px) saturate(180%) !important;
         -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
         border: 1px solid hsl(0 0% 100% / 0.18) !important;
+        border-bottom: 1px solid hsl(0 0% 100% / 0.18) !important;
         border-radius: 999px !important;
         box-shadow:
           0 10px 32px -4px rgba(0, 0, 0, 0.45),
@@ -71,10 +97,12 @@ document:
           inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
           inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3) !important;
         z-index: 9999 !important;
+        transition: none !important;
       }
       html[data-scheme="light"] .mobile-navigation {
         background: hsl(40 10% 98% / 0.7) !important;
         border: 1px solid hsl(0 0% 100% / 0.6) !important;
+        border-bottom: 1px solid hsl(0 0% 100% / 0.6) !important;
         box-shadow:
           0 10px 32px -4px rgba(0, 0, 0, 0.12),
           0 2px 8px -1px rgba(0, 0, 0, 0.08),
@@ -108,7 +136,10 @@ document:
         color: hsl(0 0% 100% / 0.65) !important;
         background: transparent !important;
         border: none !important;
+        border-bottom: none !important;
         text-decoration: none !important;
+        line-height: 1.2 !important;
+        height: auto !important;
         transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
       }
       html[data-scheme="light"] .mobile-navigation-page-links .nav-item {
@@ -123,6 +154,7 @@ document:
         background: hsl(0 0% 0% / 0.05) !important;
       }
       .mobile-navigation-page-links .nav-item.active,
+      .mobile-navigation-page-links .nav-item.nav-item-current,
       .mobile-navigation-page-links .nav-item[aria-current="page"] {
         color: #ffffff !important;
         background: var(--pr-accent, hsl(14 97% 54%)) !important;
@@ -130,10 +162,20 @@ document:
         border-bottom: none !important;
       }
       html[data-scheme="light"] .mobile-navigation-page-links .nav-item.active,
+      html[data-scheme="light"] .mobile-navigation-page-links .nav-item.nav-item-current,
       html[data-scheme="light"] .mobile-navigation-page-links .nav-item[aria-current="page"] {
         color: #ffffff !important;
         background: var(--pr-accent, hsl(14 97% 46%)) !important;
         box-shadow: 0 2px 10px -1px hsl(14 97% 46% / 0.35) !important;
+      }
+    }
+    @media (max-width: 699px) {
+      .page-content:has(.emby-library) .page-columns {
+        flex-direction: column !important;
+      }
+      .page-content:has(.emby-library) .page-column {
+        width: 100% !important;
+        flex: none !important;
       }
     }
     </style>
@@ -244,6 +286,7 @@ document:
 pages:
   - name: Watch
     slug: watch
+    width: slim
     columns:
       - size: small
         widgets:
@@ -277,7 +320,7 @@ pages:
                 check-url: http://192.168.1.2:8096/emby/System/Info/Public
                 icon: di:emby
 
-      - size: full
+      - size: small
         widgets:
           - type: custom-api
             title: Library
