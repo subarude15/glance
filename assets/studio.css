@@ -198,31 +198,10 @@ html[data-scheme="light"] body {
   color: var(--pr-accent) !important;
 }
 
-/* Watch page — slim dual columns, equal width (no ultra-wide stretch) */
+/* Watch page — slim bounds; small sidebar + full main column */
 .page-content:has(.emby-library) .page-columns {
   max-width: 920px;
   margin-inline: auto;
-}
-
-.page-content:has(.emby-library) .page-column-small,
-.page-content:has(.emby-library) .page-column-full {
-  width: auto !important;
-  flex: 1 1 0 !important;
-  min-width: 0 !important;
-  max-width: none !important;
-}
-
-/* Tablet: keep Watch as 2-up instead of Glance's single-column switcher */
-@media (max-width: 1190px) and (min-width: 700px) {
-  .page-content:has(.emby-library) .page-columns {
-    flex-direction: row !important;
-  }
-
-  .page-content:has(.emby-library) .page-column {
-    display: block !important;
-    width: auto !important;
-    flex: 1 1 0 !important;
-  }
 }
 
 /* Mobile-first chrome & Apple liquid-glass floating pill navigation */
