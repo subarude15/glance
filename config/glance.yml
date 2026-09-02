@@ -320,7 +320,7 @@ pages:
                 check-url: http://192.168.1.2:8096/emby/System/Info/Public
                 icon: di:emby
 
-      - size: small
+      - size: full
         widgets:
           - type: custom-api
             title: Library
