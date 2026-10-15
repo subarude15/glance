@@ -391,6 +391,14 @@ pages:
 
           - type: bookmarks
             groups:
+              - title: "FrameXTV — watch on this device"
+                links:
+                  - title: Open FrameXTV fullscreen-capable player
+                    url: https://framextv.xyz
+                    icon: mdi:play-box-multiple-outline
+
+          - type: bookmarks
+            groups:
               - title: "Stream (Safari, Nick. Ads hate that.)"
                 links:
                   - title: "#Sportstreams"
